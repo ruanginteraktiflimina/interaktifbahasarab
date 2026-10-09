@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Durusullughoh al-Arabiyah Jilid 1</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        gold: {
+                            500: '#d97706',
+                            600: '#b45309'
+                        }
+                    },
+                    fontFamily: {
+                        arabic: ['Amiri', 'Traditional Arabic', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Inter & Amiri (untuk teks Arab berkualitas tinggi) -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --arabic-font-scale: 1.25rem;
+            --latin-font-scale: 1rem;
+        }
+        .dynamic-arabic {
+            font-size: var(--arabic-font-scale);
+            line-height: 2.2;
+        }
+        .dynamic-latin {
+            font-size: var(--latin-font-scale);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 4px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-emerald-50/50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col justify-between transition-colors duration-300">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-white dark:bg-slate-800 border-b border-emerald-100 dark:border-slate-700 sticky top-0 z-40 shadow-sm transition-colors">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-2xl bg-emerald-700 flex items-center justify-center text-white shadow-md shadow-emerald-200 dark:shadow-none text-xl font-bold font-arabic">
+                    د
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold tracking-tight text-emerald-900 dark:text-emerald-400">Durusullughoh Jilid 1</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-arabic">دروس اللغة العربية لغير الناطقين بها</p>
+                </div>
+            </div>
+
+            <!-- Toolbar: Font Resizer & Theme Toggle -->
+            <div class="flex items-center space-x-3">
+                <!-- Font Resizer -->
+                <div class="flex items-center bg-slate-100 dark:bg-slate-700 rounded-xl p-1 text-xs font-semibold">
+                    <span class="px-2 text-slate-500 dark:text-slate-300 hidden sm:inline"><i class="fa-solid fa-text-height mr-1"></i>Huruf:</span>
+                    <button onclick="adjustFontSize(-1)" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-600 transition shadow-sm" title="Perkecil Huruf">A-</button>
+                    <button onclick="resetFontSize()" class="px-2 h-7 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-600 transition" title="Reset Ukuran">Reset</button>
+                    <button onclick="adjustFontSize(1)" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-600 transition shadow-sm" title="Perbesar Huruf">A+</button>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-yellow-400 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition shadow-sm" title="Ganti Tema">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-emerald-800 dark:bg-slate-800 text-white border-t border-emerald-700/50 dark:border-slate-700">
+            <div class="max-w-6xl mx-auto px-4 flex overflow-x-auto space-x-1 sm:space-x-2 py-2 no-scrollbar">
+                <button onclick="switchTab('intro')" id="nav-intro" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition whitespace-nowrap bg-emerald-900 shadow-inner flex items-center space-x-2">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    <span>Pengantar</span>
+                </button>
+                <button onclick="switchTab('dars1')" id="nav-dars1" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition whitespace-nowrap hover:bg-emerald-700/60 flex items-center space-x-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Ad-Darsul Awwal (Pelajaran 1)</span>
+                </button>
+                <button onclick="switchTab('dars2')" id="nav-dars2" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition whitespace-nowrap hover:bg-emerald-700/60 flex items-center space-x-2">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span>Ad-Darsuts Sani (Pelajaran 2)</span>
+                </button>
+                <button onclick="switchTab('vocabulary')" id="nav-vocabulary" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition whitespace-nowrap hover:bg-emerald-700/60 flex items-center space-x-2">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <span>Kosakata (Mufradat)</span>
+                </button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition whitespace-nowrap hover:bg-emerald-700/60 flex items-center space-x-2">
+                    <i class="fa-solid fa-puzzle-piece"></i>
+                    <span>Kuis Evaluasi</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow">
+
+        <!-- NOTIFICATION TOAST -->
+        <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-emerald-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 text-sm border border-emerald-700">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="toast-msg">Pesan notifikasi</span>
+        </div>
+
+        <!-- 1. INTRO TAB -->
+        <section id="section-intro" class="space-y-6 animate-fade-in">
+            <div class="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+                <div class="absolute right-0 bottom-0 translate-x-8 translate-y-8 opacity-10 text-9xl font-arabic pointer-events-none">
+                    العربية
+                </div>
+                <div class="max-w-2xl relative z-10 space-y-4">
+                    <span class="inline-block px-3 py-1 bg-emerald-600/80 backdrop-blur rounded-full text-xs font-semibold tracking-wide uppercase text-emerald-100">Panduan Belajar Bahasa Arab</span>
+                    <h2 class="text-2xl sm:text-4xl font-bold font-arabic leading-relaxed">أَهلاً وَسَهلاً بِكُمْ فِي تَعَلُّمِ اللُّغَةِ الْعَرَبِيَّةِ</h2>
+                    <p class="text-emerald-100 dynamic-latin leading-relaxed">Selamat datang di platform interaktif pembelajaran Kitab <strong>Durusullughoh al-Arabiyah Jilid 1</strong> karya Prof. Dr. V. Abdurrahim. Dirancang khusus bagi pemula untuk memahami tata bahasa Arab (Nahwu & Sharaf) dasar secara praktis.</p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('dars1')" class="bg-white text-emerald-900 font-semibold px-6 py-3 rounded-xl shadow hover:bg-emerald-50 transition text-sm flex items-center space-x-2">
+                            <span>Mulai Pelajaran 1</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('quiz')" class="bg-emerald-800/80 border border-emerald-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-emerald-800 transition text-sm">
+                            Uji Kemampuan (Kuis)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-emerald-100 dark:border-slate-700 shadow-sm space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-font"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">Skala Huruf Dinamis</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm dynamic-latin">Atur ukuran teks Arab sesuai kenyamanan mata Anda menggunakan panel pengontrol di atas.</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-emerald-100 dark:border-slate-700 shadow-sm space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">Kaidah & Contoh</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm dynamic-latin">Dilengkapi harakat lengkap, terjemahan akurat, serta penjelasan tata bahasa per bab.</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-emerald-100 dark:border-slate-700 shadow-sm space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">Kuis Interaktif</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm dynamic-latin">Uji pemahaman langsung dengan latihan soal latihan pilihan ganda setelah belajar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. AD-DARSUL AWWAL (PELAJARAN 1) -->
+        <section id="section-dars1" class="space-y-6 hidden animate-fade-in">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-emerald-100 dark:border-slate-700 shadow-sm">
+                <div class="border-b border-slate-100 dark:border-slate-700 pb-4 mb-6 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Pelajaran Pertama</span>
+                        <h2 class="text-2xl font-bold font-arabic text-slate-900 dark:text-slate-100">الدَّرْسُ الأَوَّلُ</h2>
+                    </div>
+                    <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 rounded-full text-xs font-semibold">Ismul Isyarah (هَذَا)</span>
+                </div>
+
+                <!-- Grammatical Explanation Box -->
+                <div class="bg-emerald-50/70 dark:bg-slate-700/50 border border-emerald-200 dark:border-slate-600 rounded-2xl p-5 mb-8">
+                    <h4 class="font-bold text-emerald-900 dark:text-emerald-300 mb-2 flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Kaidah Penting (القَاعِدَة)</span>
+                    </h4>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 dynamic-latin leading-relaxed">
+                        Kata <strong>هَذَا (Hadza)</strong> adalah kata tunjuk (Ismul Isyarah) untuk jarak dekat yang digunakan khusus untuk jenis kata benda maskulin (Mudzakkar). Artinya: <em>"Ini"</em>.
+                    </p>
+                </div>
+
+                <!-- Example Sentences / Conversation -->
+                <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200 mb-4">Contoh Kalimat & Terjemahan</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex flex-col justify-between space-y-3">
+                        <div class="text-right">
+                            <p class="font-arabic text-emerald-800 dark:text-emerald-400 font-bold dynamic-arabic">هَذَا كِتَابٌ</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+                            <span class="text-slate-600 dark:text-slate-400 dynamic-latin">Ini adalah buku</span>
+                            <button onclick="playPronunciation('Hadza kitabun')" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 text-xs px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-900/30 transition">
+                                <i class="fa-solid fa-volume-high mr-1"></i>Dengar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex flex-col justify-between space-y-3">
+                        <div class="text-right">
+                            <p class="font-arabic text-emerald-800 dark:text-emerald-400 font-bold dynamic-arabic">هَذَا قَلَمٌ</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+                            <span class="text-slate-600 dark:text-slate-400 dynamic-latin">Ini adalah pena</span>
+                            <button onclick="playPronunciation('Hadza qolamun')" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 text-xs px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-900/30 transition">
+                                <i class="fa-solid fa-volume-high mr-1"></i>Dengar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex flex-col justify-between space-y-3">
+                        <div class="text-right">
+                            <p class="font-arabic text-emerald-800 dark:text-emerald-400 font-bold dynamic-arabic">هَذَا بَابٌ</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+                            <span class="text-slate-600 dark:text-slate-400 dynamic-latin">Ini adalah pintu</span>
+                            <button onclick="playPronunciation('Hadza babun')" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 text-xs px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-900/30 transition">
+                                <i class="fa-solid fa-volume-high mr-1"></i>Dengar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex flex-col justify-between space-y-3">
+                        <div class="text-right">
+                            <p class="font-arabic text-emerald-800 dark:text-emerald-400 font-bold dynamic-arabic">هَذَا مَكْتَبٌ</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+                            <span class="text-slate-600 dark:text-slate-400 dynamic-latin">Ini adalah meja</span>
+                            <button onclick="playPronunciation('Hadza maktabun')" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 text-xs px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-900/30 transition">
+                                <i class="fa-solid fa-volume-high mr-1"></i>Dengar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation between lessons -->
+                <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700 flex justify-between">
+                    <button onclick="switchTab('intro')" class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition">Sebelumnya</button>
+                    <button onclick="switchTab('dars2')" class="px-5 py-2 bg-emerald-700 text-white rounded-xl text-sm font-medium hover:bg-emerald-800 transition shadow">Lanjut Pelajaran 2</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. AD-DARSUTS SANI (PELAJARAN 2) -->
+        <section id="section-dars2" class="space-y-6 hidden animate-fade-in">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-emerald-100 dark:border-slate-700 shadow-sm">
+                <div class="border-b border-slate-100 dark:border-slate-700 pb-4 mb-6 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Pelajaran Kedua</span>
+                        <h2 class="text-2xl font-bold font-arabic text-slate-900 dark:text-slate-100">الدَّرْسُ الثَّانِي</h2>
+                    </div>
+                    <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 rounded-full text-xs font-semibold">Mudhaf & Mudhaf Ilaih</span>
+                </div>
+
+                <!-- Grammatical Explanation Box -->
+                <div class="bg-emerald-50/70 dark:bg-slate-700/50 border border-emerald-200 dark:border-slate-600 rounded-2xl p-5 mb-8">
+                    <h4 class="font-bold text-emerald-900 dark:text-emerald-300 mb-2 flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Kaidah Kepemilikan (المُضَافُ وَالمُضَافُ إِلَيْهِ)</span>
+                    </h4>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 dynamic-latin leading-relaxed">
+                        Dalam bahasa Arab, kepemilikan dinyatakan dengan susunan <strong>Mudhaf</strong> (kata yang disandarkan, tanpa tanwin dan tanpa alif-lam di awal) dan <strong>Mudhaf Ilaih</strong> (kata sandaran yang berharakat kasrah di akhir). Contoh: <em>كِتَابُ مُحَمَّدٍ (Kitabu Muhammadin - Buku Muhammad)</em>.
+                    </p>
+                </div>
+
+                <!-- Example Sentences -->
+                <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200 mb-4">Contoh Susunan Kalimat</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex flex-col justify-between space-y-3">
+                        <div class="text-right">
+                            <p class="font-arabic text-emerald-800 dark:text-emerald-400 font-bold dynamic-arabic">بَيْتُ الحَدِيثِ</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+                            <span class="text-slate-600 dark:text-slate-400 dynamic-latin">Rumah yang baru (Rumah baru)</span>
+                            <button onclick="playPronunciation('Baitul haditsi')" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 text-xs px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-900/30 transition">
+                                <i class="fa-solid fa-volume-high mr-1"></i>Dengar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex flex-col justify-between space-y-3">
+                        <div class="text-right">
+                            <p class="font-arabic text-emerald-800 dark:text-emerald-400 font-bold dynamic-arabic">مِفْتَاحُ السَّيَّارَةِ</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
+                            <span class="text-slate-600 dark:text-slate-400 dynamic-latin">Kunci mobil (Al-Qamariyyah & Syamsiyyah)</span>
+                            <button onclick="playPronunciation('Miftahus sayyarati')" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 text-xs px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-900/30 transition">
+                                <i class="fa-solid fa-volume-high mr-1"></i>Dengar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation between lessons -->
+                <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700 flex justify-between">
+                    <button onclick="switchTab('dars1')" class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition">Sebelumnya</button>
+                    <button onclick="switchTab('vocabulary')" class="px-5 py-2 bg-emerald-700 text-white rounded-xl text-sm font-medium hover:bg-emerald-800 transition shadow">Lanjut ke Kosakata</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. VOCABULARY / MUFRADAT TAB -->
+        <section id="section-vocabulary" class="space-y-6 hidden animate-fade-in">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-emerald-100 dark:border-slate-700 shadow-sm">
+                <div class="border-b border-slate-100 dark:border-slate-700 pb-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Kumpulan Kata</span>
+                        <h2 class="text-2xl font-bold font-arabic text-slate-900 dark:text-slate-100">المُفْرَدَاتُ الجَدِيدَةُ (Kosakata Pilihan)</h2>
+                    </div>
+                    <div class="w-full sm:w-64 relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        </span>
+                        <input type="text" id="vocab-search" oninput="filterVocab()" placeholder="Cari kosakata..." class="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs outline-none focus:border-emerald-500 transition">
+                    </div>
+                </div>
+
+                <!-- Vocabulary Cards Grid -->
+                <div id="vocab-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- Injected by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. QUIZ EVALUATION TAB -->
+        <section id="section-quiz" class="space-y-6 hidden animate-fade-in">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-emerald-100 dark:border-slate-700 shadow-sm max-w-2xl mx-auto">
+                <div class="border-b border-slate-100 dark:border-slate-700 pb-4 mb-6 text-center">
+                    <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Uji Kompetensi</span>
+                    <h2 class="text-2xl font-bold font-arabic text-slate-900 dark:text-slate-100">اخْتِبَرُ المَعْرِفَةِ</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Uji pemahaman materi Durusullughoh Jilid 1</p>
+                </div>
+
+                <div id="quiz-container" class="space-y-6">
+                    <!-- Question Header -->
+                    <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400">
+                        <span id="quiz-progress">Pertanyaan 1 dari 4</span>
+                        <span id="quiz-score-badge" class="px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 rounded-lg font-semibold">Skor: 0</span>
+                    </div>
+
+                    <!-- Question Text -->
+                    <div class="p-6 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 text-center space-y-2">
+                        <p id="quiz-question-ar" class="font-arabic text-2xl font-bold text-emerald-800 dark:text-emerald-400 dynamic-arabic"></p>
+                        <p id="quiz-question-id" class="text-sm text-slate-600 dark:text-slate-300 dynamic-latin"></p>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="quiz-options" class="grid grid-cols-1 gap-3">
+                        <!-- Options injected dynamically -->
+                    </div>
+
+                    <!-- Next Button -->
+                    <div id="quiz-nav" class="pt-4 flex justify-end hidden">
+                        <button onclick="nextQuizQuestion()" class="px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-sm font-medium transition shadow">
+                            Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Completion Screen -->
+                <div id="quiz-finished" class="hidden text-center py-8 space-y-4">
+                    <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">Kuis Selesai!</h3>
+                    <p id="quiz-final-score" class="text-sm text-slate-600 dark:text-slate-300"></p>
+                    <button onclick="resetQuiz()" class="px-6 py-2.5 bg-emerald-700 text-white rounded-xl text-sm font-medium hover:bg-emerald-800 transition">
+                        Ulangi Kuis
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-800 border-t border-emerald-100 dark:border-slate-700 mt-12 py-6 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors">
+        <p>Durusullughoh al-Arabiyah Jilid 1 &bull; Dirancang dengan Tailwind CSS & JavaScript Responsif</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // State Management
+        let currentTab = 'intro';
+        let arabicScale = 1.25; // rem unit base
+        let latinScale = 1.0;   // rem unit base
+        
+        // Vocabulary Database
+        const vocabularyList = [
+            { ar: 'كِتَابٌ', id: 'Buku', cat: 'Benda' },
+            { ar: 'قَلَمٌ', id: 'Pena / Pulpen', cat: 'Benda' },
+            { ar: 'بَابٌ', id: 'Pintu', cat: 'Benda' },
+            { ar: 'مَكْتَبٌ', id: 'Meja', cat: 'Benda' },
+            { ar: 'سَرِيرٌ', id: 'Tempat Tidur', cat: 'Benda' },
+            { ar: 'مِفْتَاحٌ', id: 'Kunci', cat: 'Benda' },
+            { ar: 'بَيْتٌ', id: 'Rumah', cat: 'Bangunan' },
+            { ar: 'مَسْجِدٌ', id: 'Masjid', cat: 'Bangunan' },
+            { ar: 'قَمِيصٌ', id: 'Kemeja / Baju', cat: 'Pakaian' },
+            { ar: 'نَجْمٌ', id: 'Bintang', cat: 'Alam' }
+        ];
+
+        // Quiz Questions Database
+        const quizQuestions = [
+            {
+                ar: 'مَا مَعْنَى "كِتَابٌ"؟',
+                id: 'Apa arti dari kata "كِتَابٌ"?',
+                options: ['Pena', 'Buku', 'Pintu', 'Meja'],
+                correct: 1
+            },
+            {
+                ar: 'مَا هُوَ اسْمُ الإِشَارَةِ لِلْمُذَكَّرِ القَرِيبِ؟',
+                id: 'Apakah Ismul Isyarah (kata tunjuk dekat) untuk maskulin (mudzakkar)?',
+                options: ['هَذِهِ', 'هَذَا', 'تِلْكَ', 'ذَلِكَ'],
+                correct: 1
+            },
+            {
+                ar: 'مَا مَعْنَى "مِفْتَاحٌ"؟',
+                id: 'Apa arti dari kata "مِفْتَاحٌ"?',
+                options: ['Kunci', 'Rumah', 'Baju', 'Bintang'],
+                correct: 0
+            },
+            {
+                ar: 'فِي جُمْلَةِ "كِتَابُ مُحَمَّدٍ", كَلِمَةُ "مُحَمَّدٍ" تَعْرَبُ كَمُضَافٍ إِلَيْهِ وَحَرَكَتُهَا الأَخِيرَةُ هي:',
+                id: 'Dalam kalimat "كِتَابُ مُحَمَّدٍ", kata "مُحَمَّدٍ" berkedudukan sebagai Mudhaf Ilaih, maka harakat akhirnya adalah:',
+                options: ['Dammah (ـُ)', 'Fathah (ـَ)', 'Kasrah (ـِ)', 'Sukun (ـْ)'],
+                correct: 2
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        // Initialize on load
+        window.onload = function() {
+            renderVocab(vocabularyList);
+            // Check stored theme or preference
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = "fa-solid fa-sun";
+            }
+        };
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            currentTab = tabId;
+            const tabs = ['intro', 'dars1', 'dars2', 'vocabulary', 'quiz'];
+            
+            tabs.forEach(t => {
+                const section = document.getElementById(`section-${t}`);
+                const navBtn = document.getElementById(`nav-${t}`);
+                
+                if (t === tabId) {
+                    section.classList.remove('hidden');
+                    navBtn.className = "tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition whitespace-nowrap bg-emerald-900 shadow-inner flex items-center space-x-2";
+                } else {
+                    section.classList.add('hidden');
+                    navBtn.className = "tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition whitespace-nowrap hover:bg-emerald-700/60 flex items-center space-x-2";
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (tabId === 'quiz' && currentQuizIndex === 0 && !quizAnswered) {
+                loadQuizQuestion();
+            }
+        }
+
+        // Font Size Adjuster (Responsive Font Scaling)
+        function adjustFontSize(direction) {
+            arabicScale += direction * 0.15;
+            latinScale += direction * 0.1;
+
+            // Clamp limits between 0.9rem and 2.5rem
+            if (arabicScale < 1.0) arabicScale = 1.0;
+            if (arabicScale > 2.5) arabicScale = 2.5;
+
+            if (latinScale < 0.85) latinScale = 0.85;
+            if (latinScale > 1.4) latinScale = 1.4;
+
+            document.documentElement.style.setProperty('--arabic-font-scale', `${arabicScale}rem`);
+            document.documentElement.style.setProperty('--latin-font-scale', `${latinScale}rem`);
+
+            showToast(`Ukuran huruf disesuaikan (${Math.round(arabicScale * 100)}%)`);
+        }
+
+        function resetFontSize() {
+            arabicScale = 1.25;
+            latinScale = 1.0;
+            document.documentElement.style.setProperty('--arabic-font-scale', '1.25rem');
+            document.documentElement.style.setProperty('--latin-font-scale', '1rem');
+            showToast('Ukuran huruf dikembalikan ke default');
+        }
+
+        // Dark/Light Mode Toggle
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.className = "fa-solid fa-moon";
+                showToast('Beralih ke Mode Terang');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.className = "fa-solid fa-sun";
+                showToast('Beralih ke Mode Gelap');
+            }
+        }
+
+        // Toast Notification Helper
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        // Simulated Audio Pronunciation
+        function playPronunciation(text) {
+            showToast(`Memutar pelafalan: "${text}"`);
+        }
+
+        // Render Vocabulary Grid
+        function renderVocab(list) {
+            const grid = document.getElementById('vocab-grid');
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400 text-sm">Kosakata tidak ditemukan</div>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(item => `
+                <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex flex-col justify-between space-y-3 hover:shadow-md transition">
+                    <div class="flex justify-between items-start">
+                        <span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-[10px] font-semibold rounded">${item.cat}</span>
+                        <button onclick="playPronunciation('${item.ar}')" class="text-slate-400 hover:text-emerald-600 transition">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="text-center py-2">
+                        <p class="font-arabic text-xl font-bold text-emerald-800 dark:text-emerald-400 dynamic-arabic">${item.ar}</p>
+                        <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mt-1 dynamic-latin">${item.id}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search Vocabulary Filter
+        function filterVocab() {
+            const query = document.getElementById('vocab-search').value.toLowerCase();
+            const filtered = vocabularyList.filter(v => 
+                v.ar.toLowerCase().includes(query) || v.id.toLowerCase().includes(query) || v.cat.toLowerCase().includes(query)
+            );
+            renderVocab(filtered);
+        }
+
+        // Quiz Logic
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            quizAnswered = false;
+            
+            document.getElementById('quiz-progress').innerText = `Pertanyaan ${currentQuizIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-score-badge').innerText = `Skor: ${quizScore}`;
+            document.getElementById('quiz-question-ar').innerText = q.ar;
+            document.getElementById('quiz-question-id').innerText = q.id;
+            document.getElementById('quiz-nav').classList.add('hidden');
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = q.options.map((opt, index) => `
+                <button onclick="selectQuizAnswer(${index})" id="opt-${index}" class="w-full text-left p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 transition text-sm font-medium flex justify-between items-center">
+                    <span>${opt}</span>
+                    <span class="w-6 h-6 rounded-full border border-slate-300 dark:border-slate-600 flex items-center justify-center text-xs text-slate-400">${String.fromCharCode(65 + index)}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectQuizAnswer(selectedIndex) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const correctIndex = q.correct;
+
+            for (let i = 0; i < q.options.length; i++) {
+                const btn = document.getElementById(`opt-${i}`);
+                btn.disabled = true;
+                if (i === correctIndex) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 font-medium flex justify-between items-center";
+                } else if (i === selectedIndex) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border border-rose-500 bg-rose-50 dark:bg-rose-900/40 text-rose-800 dark:text-rose-300 font-medium flex justify-between items-center";
+                }
+            }
+
+            if (selectedIndex === correctIndex) {
+                quizScore += 25;
+                showToast('Jawaban Benar! (+25 Poin)');
+            } else {
+                showToast('Jawaban Kurang Tepat.');
+            }
+
+            document.getElementById('quiz-score-badge').innerText = `Skor: ${quizScore}`;
+            document.getElementById('quiz-nav').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                document.getElementById('quiz-container').classList.add('hidden');
+                const finishedDiv = document.getElementById('quiz-finished');
+                finishedDiv.classList.remove('hidden');
+                document.getElementById('quiz-final-score').innerText = `Anda memperoleh total skor ${quizScore} dari 100. Semoga ilmu Anda bermanfaat!`;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            document.getElementById('quiz-finished').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+    </script>
+</body>
+</html>
